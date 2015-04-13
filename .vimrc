@@ -1,4 +1,4 @@
-in {{{ 
+" main {{{ 
 set nocompatible
 filetype off                  " required
 filetype plugin indent on    " required

@@ -297,4 +297,76 @@ let g:delimitMate_smart_quotes = 1
 let g:delimitMate_jump_expansion = 1  
 let g:delimitMate_matchpairs = "(:),[:],{:},<:>"
 " }}}
+" supertab.vim {{{
+  if &rtp =~ '\<supertab\>'
+    let g:SuperTabDefaultCompletionType = 'context'
+    let g:SuperTabContextTextFileTypeExclusions =
+      \ ['htmldjango', 'htmljinja', 'javascript', 'sql']
+
+    " auto select the first result when using 'longest'
+    "let g:SuperTabLongestHighlight = 1
+
+    let g:SuperTabLongestEnhanced = 1
+    let g:SuperTabClosePreviewOnPopupClose = 1
+
+    " map <c-space> to <c-p> completion (useful when supertab 'context'
+    " defaults to something else).
+    imap <nul> <c-r>=SuperTabAlternateCompletion("\<lt>c-p>")<cr>
+
+    autocmd FileType python
+      \ if &completefunc != '' |
+      \   call SuperTabChain(&completefunc, "<c-p>") |
+      \ endif
+  endif
+" }}}
+" eclim.vim {{{
+  let g:EclimMakeDispatchEnabled = 0
+  let g:EclimLargeFileEnabled = 1
+
+  " fallback to my ag plugin for non-project searching
+  let g:EclimLocateFileNonProjectScope = 'ag'
+
+  let g:EclimOpenUrlInVimPatterns = [
+      \ '\.\(dtd\|xml\|xsd\)$',
+      \ '\.txt$',
+      \ '\.vim$',
+    \ ]
+
+  " for sphinx
+  let g:EclimAntCompilerAdditionalErrorFormat =
+    \ '\%W%.%#\ WARNING:\ %f:%l:\ %m,' .
+    \ '\%W%.%#\ WARNING:\ %f::\ %m,'
+
+  " mark current line
+  nnoremap <silent> <leader>s :Sign<cr>
+
+  " swap 2 words using ,ws
+  nnoremap <silent> <leader>ws :SwapWords<cr>
+  " swap typed method declaration arguments
+  nnoremap <silent> <buffer> <leader>aws :SwapTypedArguments<cr>
+
+  nnoremap <silent> <leader>> :LocateFile<cr>
+  nnoremap <silent> <leader>b :BuffersToggle<cr>
+
+  nnoremap <silent> <leader>/ :ProjectTreeToggle<cr>
+
+  let g:EclimProjectTabTreeAutoOpen = 0
+
+  let g:TreeSettingsFunction = "TreeSettings"
+  let g:TreeExpandSingleDirs = 1
+  let g:TreeIndent = 2
+
+  function! TreeSettings()
+    call eclim#tree#RegisterFileAction(
+      \ '.*\.\(bmp\|gif\|ico\|jpeg\|jpg\|png\|tif\)$',
+      \ 'Feh', '!feh <file> &> /dev/null &')
+    call eclim#tree#RegisterFileAction(
+      \ '.*\.\(bmp\|gif\|ico\|jpeg\|jpg\|png\|psd\|svg\|tif\|xbm\|xpm\)$',
+      \ 'Gimp', '!gimp <file> &> /dev/null &')
+    call eclim#tree#RegisterFileAction('.*\.psd$',
+      \ 'psdview', '!psdview <file> &> /dev/null &')
+    call eclim#tree#RegisterFileAction(
+      \ '.*\.pdf$', 'zathura', '!zathura <file> &> /dev/null &')
+  endfunction
+" }}}
 " vim:foldmethod=marker:foldlevel=0

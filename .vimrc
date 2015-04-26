@@ -1,19 +1,25 @@
-if has('vim_starting')
-  if &compatible
-    set nocompatible               " Be iMproved
-  endif
+" Note: Skip initialization for vim-tiny or vim-small.
+ if !1 | finish | endif
 
-  set runtimepath+=/home/manu/.vim/bundle/neobundle.vim/
-endif
+ if has('vim_starting')
+   if &compatible
+     set nocompatible               " Be iMproved
+   endif
 
-" Required:
-call neobundle#begin(expand('/home/manu/.vim/bundle'))
+   " Required:
+   set runtimepath+=~/.vim/bundle/neobundle.vim/
+ endif
 
-" Let NeoBundle manage NeoBundle
-" Required:
-NeoBundleFetch 'Shougo/neobundle.vim'
+ " Required:
+ call neobundle#begin(expand('~/.vim/bundle/'))
 
-" Add or remove your Bundles here:
+ " Let NeoBundle manage NeoBundle
+ " Required:
+ NeoBundleFetch 'Shougo/neobundle.vim'
+
+ " My Bundles here:
+ " Refer to |:NeoBundle-examples|.
+ " Note: You don't set neobundle setting in .gvimrc!
 NeoBundle 'Shougo/neosnippet.vim'
 NeoBundle 'Shougo/neosnippet-snippets'
 NeoBundle 'tpope/vim-fugitive'
@@ -28,8 +34,6 @@ NeoBundle 'ekalinin/Dockerfile.vim'
 NeoBundle 'tpope/vim-surround'
 NeoBundle 'bling/vim-airline'
 
-" You can specify revision/branch/tag.
-NeoBundle 'Shougo/vimshell', { 'rev' : '3787e5' }
 
 " Required:
 call neobundle#end()

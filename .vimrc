@@ -22,12 +22,12 @@
  " Note: You don't set neobundle setting in .gvimrc!
 NeoBundle 'Shougo/neosnippet.vim'
 NeoBundle 'Shougo/neosnippet-snippets'
+NeoBundle 'Shougo/neocomplete.vim'
 NeoBundle 'tpope/vim-fugitive'
 NeoBundle 'ctrlpvim/ctrlp.vim'
 NeoBundle 'flazz/vim-colorschemes'
 NeoBundle 'plasticboy/vim-markdown'
 NeoBundle 'derekwyatt/vim-scala'
-NeoBundle 'ervandew/supertab'
 NeoBundle 'Yggdroot/indentLine'
 NeoBundle 'Raimondi/delimitMate'
 NeoBundle 'ekalinin/Dockerfile.vim'

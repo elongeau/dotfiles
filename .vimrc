@@ -33,6 +33,9 @@ NeoBundle 'Raimondi/delimitMate'
 NeoBundle 'ekalinin/Dockerfile.vim'
 NeoBundle 'tpope/vim-surround'
 NeoBundle 'bling/vim-airline'
+NeoBundle 'rhysd/committia.vim'
+NeoBundle 'myusuf3/numbers.vim'
+NeoBundle 'ng/vim-bufferline'
 
 
 " Required:

@@ -1,54 +1,35 @@
-" Note: Skip initialization for vim-tiny or vim-small.
- if !1 | finish | endif
+set nocompatible              " be iMproved, required
+filetype off                  " required
 
- if has('vim_starting')
-   if &compatible
-     set nocompatible               " Be iMproved
-   endif
+" set the runtime path to include Vundle and initialize
+set rtp+=~/.vim/bundle/Vundle.vim
+call vundle#begin()
+" alternatively, pass a path where Vundle should install plugins
+"call vundle#begin('~/some/path/here')
 
-   " Required:
-   set runtimepath+=~/.vim/bundle/neobundle.vim/
- endif
+" let Vundle manage Vundle, required
+Plugin 'gmarik/Vundle.vim'
 
- " Required:
- call neobundle#begin(expand('~/.vim/bundle/'))
+Plugin 'Shougo/neosnippet.vim'
+Plugin 'Shougo/neosnippet-snippets'
+Plugin 'Shougo/neocomplete.vim'
+Plugin 'tpope/vim-fugitive'
+Plugin 'ctrlpvim/ctrlp.vim'
+Plugin 'flazz/vim-colorschemes'
+Plugin 'plasticboy/vim-markdown'
+Plugin 'derekwyatt/vim-scala'
+Plugin 'Yggdroot/indentLine'
+Plugin 'Raimondi/delimitMate'
+Plugin 'ekalinin/Dockerfile.vim'
+Plugin 'tpope/vim-surround'
+Plugin 'bling/vim-airline'
+Plugin 'rhysd/committia.vim'
+Plugin 'myusuf3/numbers.vim'
+Plugin 'airblade/vim-gitgutter'
 
- " Let NeoBundle manage NeoBundle
- " Required:
- NeoBundleFetch 'Shougo/neobundle.vim'
-
- " My Bundles here:
- " Refer to |:NeoBundle-examples|.
- " Note: You don't set neobundle setting in .gvimrc!
-NeoBundle 'Shougo/neosnippet.vim'
-NeoBundle 'Shougo/neosnippet-snippets'
-NeoBundle 'Shougo/neocomplete.vim'
-NeoBundle 'tpope/vim-fugitive'
-NeoBundle 'ctrlpvim/ctrlp.vim'
-NeoBundle 'flazz/vim-colorschemes'
-NeoBundle 'plasticboy/vim-markdown'
-NeoBundle 'derekwyatt/vim-scala'
-NeoBundle 'Yggdroot/indentLine'
-NeoBundle 'Raimondi/delimitMate'
-NeoBundle 'ekalinin/Dockerfile.vim'
-NeoBundle 'tpope/vim-surround'
-NeoBundle 'bling/vim-airline'
-NeoBundle 'rhysd/committia.vim'
-NeoBundle 'myusuf3/numbers.vim'
-NeoBundle 'ng/vim-bufferline'
-NeoBundle 'airblade/vim-gitgutter'
-
-
-" Required:
-call neobundle#end()
-
-" Required:
-filetype plugin indent on
-
-" If there are uninstalled bundles found on startup,
-" this will conveniently prompt you to install them.
-NeoBundleCheck
-"End NeoBundle Scripts-------------------------
+" All of your Plugins must be added before the following line
+call vundle#end()            " required
+filetype plugin indent on    " required
 
 " Affichage {{{ 
 " VIM Configuration - Emmanuel LONGEAU

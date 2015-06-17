@@ -107,8 +107,6 @@ nnoremap <leader>k :call MultiScroll(0)<RETURN>
 " noremap w <C-w>
 " noremap W <C-w><C-w>
 
-nnoremap <leader>p :bp<RETURN>
-nnoremap <leader>n :bn<RETURN>
 nnoremap tt :e ~/.todo/todo.txt<RETURN>
 nnoremap <C-w> :w<RETURN>
 nnoremap <leader>v :e ~/.vimrc<RETURN>
@@ -129,6 +127,12 @@ nnoremap no :Note
 nnoremap oh :e ~/
 " recharge le fichier courant dans vim
 noremap <silent><buffer> <F5> :exec 'source '.bufname('%')<CR>
+
+" ======= Buffer =========
+nnoremap <leader>l :ls<CR>
+nnoremap <leader>p :bp<RETURN>
+nnoremap <leader>n :bn<RETURN>
+nnoremap <leader>e :buffers<CR>:buffer<Space>
 
 " ======= ClipBoard ======
 nnoremap <leader>y "+y

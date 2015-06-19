@@ -26,3 +26,5 @@
   wordRegex = .
 [difftool]
 	prompt = false
+[status]
+	showUntrackedFiles = all

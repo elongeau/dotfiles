@@ -134,6 +134,7 @@ nnoremap <leader>l :ls<CR>
 nnoremap <leader>p :bp<RETURN>
 nnoremap <leader>n :bn<RETURN>
 nnoremap <leader>e :buffers<CR>:buffer<Space>
+nnoremap <leader>q :bd
 
 " ======= ClipBoard ======
 nnoremap <leader>y "+y

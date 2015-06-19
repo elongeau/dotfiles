@@ -93,10 +93,10 @@ nnoremap <down> <nop>
 nnoremap <left> <nop>
 nnoremap <right> <nop>
 
-imap <C-h> <C-o>h
-imap <C-j> <C-o>j
-imap <C-k> <C-o>k
-imap <C-l> <C-o>l
+imap OD <C-o>h
+imap OB <C-o>j
+imap OA <C-o>k
+imap OC <C-o>l
 
 nnoremap <F3> :NumbersToggle<CR>
 nnoremap <F4> :RainbowParenthesesToggle<CR>

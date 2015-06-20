@@ -89,5 +89,6 @@ alias vi="echo 'use v alias'"
 alias v="vim"
 alias dockerrm='docker rm $(docker ps -a -q)'
 alias dockerstop='docker stop $(docker ps -a -q)'
+alias gd="git diff --color-words"
 
 source vm.sh

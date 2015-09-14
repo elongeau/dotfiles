@@ -2,48 +2,56 @@ set nocompatible              " be iMproved, required
 filetype off                  " required
 
 " set the runtime path to include Vundle and initialize
-set rtp+=~/.vim/bundle/Vundle.vim
-call vundle#begin()
-" alternatively, pass a path where Vundle should install plugins
+if has("win32")
+  let MYVIMRC=$HOME . "/_vimrc"
+  set rtp+=~/vimfiles/bundle/Vundle.vim
+  call vundle#begin('~/vimfiles/bundle/')
+  let g:theme="base16-eighties"
+else
+  let MYVIMRC=$HOME . "/.vimrc"
+  set rtp+=~/.vim/bundle/Vundle.vim
+  call vundle#begin('~/.vim/bundle/')
+  let g:theme="solarized"
+endif
+
+" alternatively, pass a path where Vundle should install Plugins
 "call vundle#begin('~/some/path/here')
 
 " let Vundle manage Vundle, required
 Plugin 'gmarik/Vundle.vim'
-
 Plugin 'altercation/vim-colors-solarized'
-Plugin 'Shougo/neosnippet.vim'
-Plugin 'Shougo/neosnippet-snippets'
-Plugin 'Shougo/neocomplete.vim'
+Plugin 'chriskempson/base16-vim'
 Plugin 'tpope/vim-fugitive'
-Plugin 'ctrlpvim/ctrlp.vim'
-Plugin 'flazz/vim-colorschemes'
-Plugin 'plasticboy/vim-markdown'
-Plugin 'derekwyatt/vim-scala'
-Plugin 'Yggdroot/indentLine'
-Plugin 'Raimondi/delimitMate'
-Plugin 'ekalinin/Dockerfile.vim'
+Plugin 'jtratner/vim-flavored-markdown.git'
+Plugin 'yggdroot/indentline'
+Plugin 'ekalinin/dockerfile.vim'
 Plugin 'tpope/vim-surround'
 Plugin 'bling/vim-airline'
+Plugin 'lokaltog/vim-easymotion'
+Plugin 'tpope/vim-commentary'
+Plugin 'godlygeek/tabular'
+Plugin 'plasticboy/vim-markdown'
+Plugin 'reedes/vim-colors-pencil'
+Plugin 'dhruvasagar/vim-table-mode'
+Plugin 'terryma/vim-expand-region'
+Plugin 'kien/ctrlp.vim'
 Plugin 'rhysd/committia.vim'
-Plugin 'myusuf3/numbers.vim'
-Plugin 'airblade/vim-gitgutter'
-Plugin 'Lokaltog/vim-easymotion'
-
 " All of your Plugins must be added before the following line
 call vundle#end()            " required
 filetype plugin indent on    " required
 
-" Affichage {{{ 
+
+" Affichage {{{
 " VIM Configuration - Emmanuel LONGEAU
 set title " Met a jour le titre de votre fenetre ou de votre terminal
 set number " Affiche le numero des lignes
+set relativenumber
 set ruler " Affiche la position actuelle du curseur
-set wrap " Affiche les lignes trop longues sur plusieurs lignes
 set scrolloff=3 " Affiche un minimum de 3 lignes autour du curseur (pour le scroll)
 set wildmenu            " visual autocomplete for command menu
 " }}}
 " Recherche {{{
-set ignorecase " Ignore la casse lors dune recherche
+set ignorecase " Ignore la casse lors d?une recherche
 set smartcase " Si une recherche contient une majuscule, re-active la sensibilite a la casse
 set incsearch " Surligne les resultats de recherche pendant la saisie
 set hlsearch " Surligne les resultats de recherche
@@ -51,17 +59,14 @@ set hlsearch " Surligne les resultats de recherche
 " Divers {{{
 set visualbell " Empeche Vim de beeper
 set noerrorbells " Empeche Vim de beeper
-" Active le comportement habituel de la touche retour en arriere
+" Active le comportement ?habituel? de la touche retour en arriere
 set backspace=indent,eol,start
-" Cache les fichiers lors de louverture dautres fichiers
+" Cache les fichiers lors de l?ouverture d?autres fichiers
 set hidden
 set autoread			"Reload files changed outside vim
-let g:ctrlp_working_path_mode = 'ra'
 " Ignore these directories
 set wildignore+=*/build/**
 set wildignore+=*/target/**
-" disable caching
-let g:ctrlp_use_caching=0
 " }}}
 " Syntaxe {{{
 " Active la coloration syntaxique
@@ -69,8 +74,29 @@ syntax enable
 syntax on
 " }}}
 " Raccourci {{{
-:let mapleader = ","
+:let mapleader = "\<Space>"
 
+" region expanding
+vmap v <Plug>(expand_region_expand)
+vmap <C-v> <Plug>(expand_region_shrink)
+
+" Copier/coller system
+vmap <Leader>y "+y
+vmap <Leader>d "+d
+nmap <Leader>p "+p
+nmap <Leader>P "+P
+vmap <Leader>p "+p
+vmap <Leader>P "+P
+
+" confort
+map q: :q
+" Rechercher et remplacer
+vnoremap <silent> s //e<C-r>=&selection=='exclusive'?'+1':''<CR><CR>
+    \:<C-u>call histdel('search',-1)<Bar>let @/=histget('search',-1)<CR>gv
+omap s :normal vs<CR>
+
+nnoremap <leader>x :set syntax=xml<CR>
+nnoremap <leader>rs :%s/\s\+$//<CR>
 " ============== Fonctions ==================
 
 function! MultiScroll(OnOff)
@@ -81,7 +107,7 @@ else
   noremap j j
   noremap k k
 endif
-endfunction 
+endfunction
 
 " ========= Motion ==========
 inoremap jk <Esc>
@@ -93,11 +119,6 @@ nnoremap <down> <nop>
 nnoremap <left> <nop>
 nnoremap <right> <nop>
 
-imap OD <C-o>h
-imap OB <C-o>j
-imap OA <C-o>k
-imap OC <C-o>l
-
 nnoremap <F3> :NumbersToggle<CR>
 nnoremap <F4> :RainbowParenthesesToggle<CR>
 
@@ -108,20 +129,17 @@ nnoremap <leader>k :call MultiScroll(0)<RETURN>
 " noremap w <C-w>
 " noremap W <C-w><C-w>
 
-nnoremap tt :e ~/.todo/todo.txt<RETURN>
-nnoremap <C-w> :w<RETURN>
-nnoremap <leader>v :e ~/.vimrc<RETURN>
-nnoremap <leader>ev :vsplit $MYVIMRC<cr>
+inoremap <C-w> <esc>:w<RETURN>a
+nnoremap <leader>v :execute "e " .MYVIMRC<RETURN>
 
-nnoremap <silent> vv <C-w>v
-nnoremap <silent> ss <C-w>s
+nnoremap <C-j> <C-W><C-J>
+nnoremap <C-k> <C-W><C-K>
+nnoremap <C-l> <C-W><C-L>
+nnoremap <C-h> <C-W><C-H>
 
-nnoremap <silent> <Leader><Leader> :nohlsearch<CR>
+"nnoremap <silent> <Leader><Leader> :nohlsearch<CR>
 inoremap <leader>x !%C:\Users\elongeau\.babun\cygwin\bin\xmllint.exe --format --recover -<CR>
-nnoremap NN :enew<RETURN>
-
-" ========= Note =========
-nnoremap no :Note 
+nnoremap <leader>nn :enew<RETURN>
 
 " ======== Files =========
 " ouvre un fichier dans le HOME
@@ -131,14 +149,9 @@ noremap <silent><buffer> <F5> :exec 'source '.bufname('%')<CR>
 
 " ======= Buffer =========
 nnoremap <leader>l :ls<CR>
-nnoremap <leader>p :bp<RETURN>
 nnoremap <leader>n :bn<RETURN>
-nnoremap <leader>e :buffers<CR>:buffer<Space>
 nnoremap <leader>q :bd<CR>
-
-" ======= ClipBoard ======
-nnoremap <leader>y "+y
-nnoremap <leader>p "+p
+nnoremap <leader>z :bd!<CR>
 
 " ======= Numbers =======
 " to an easily access of numbers with command on a french keyboad
@@ -152,7 +165,7 @@ nnoremap è 7
 nnoremap _ 8
 nnoremap ç 9
 nnoremap à 0
-nnoremap = + 
+nnoremap = +
 
 " ====== Insert Mode ======
 inoremap <c-d> <esc>ddi
@@ -166,27 +179,23 @@ inoremap <A-k> <Esc>:m .-2<CR>==gi
 vnoremap <A-j> :m '>+1<CR>gv=gv
 vnoremap <A-k> :m '<-2<CR>gv=gv
 
-nnoremap QQ :q<CR>
-nnoremap qq :BD<CR> 
-nnoremap zq :bd!<CR>
-nnoremap ZQ :q!<CR>
+nnoremap <leader><leader>q :q<CR>
+nnoremap <leader><leader>z :q!<CR>
 
+nnoremap <Leader>w :w<CR>
 " Reload syntax highlighting
 noremap <F12> <Esc>:syntax sync fromstart<CR>
 inoremap <F12> <C-o>:syntax sync fromstart<CR>
 " }}}
 " Autocommand {{{
-" automatically reload vimrc when it's saved
-autocmd! bufwritepost .vimrc source %
+" automatically reloadMYVIMRC when it's saved
+autocmd! bufwritepost MYVIMRC source %
 autocmd BufEnter * :syntax sync fromstart
 " autocmd CursorMoved * exe printf('match IncSearch /\V\<%s\>/', escape(expand('<cword>'), '/\'))
 " }}}
 " Backup {{{
-set backup
-set backupdir=~/.vim-tmp
-set backupskip=/tmp/*,/private/tmp/*
-set directory=~/.vim-tmp
-set writebackup 
+set nobackup
+set noswapfile
 " }}}
 " Indentation {{{
 set autoindent
@@ -248,32 +257,52 @@ set guioptions-=L  "remove left-hand scroll bar
 " vertical line indentation
 let g:indentLine_color_term = 239
 let g:indentLine_color_gui = '#09AA08'
-let g:indentLine_char = '│'
+let g:indentLine_char = '¦'
 " }}}
 " Theme {{{
 set t_Co=256
 set background=dark
 " set background=light
-colorscheme solarized
-let g:seoul256_background = 234
-" colorscheme seoul256 
-" colorscheme gruvbox
-" colorscheme base16-atelierdune 
 set antialias
 
-set encoding=utf-8 
+set encoding=utf-8
 set fileencoding=utf-8
-" set guifont=Anonymice_Powerline:h10
 set guifont=Fantasque\ Sans\ Mono:h14
-" set guifont=Sauce_Code_Powerline:h12
-"set guifont=ProFontWindows:h10
-"set guifont=Inconsolata_for_Powerline:h10
+
+execute 'colorscheme '.g:theme
+
+function! SetDefaultTheme()
+  set background=dark
+  execute 'colorscheme '.g:theme
+  let g:airline_theme = 'solarized'
+  set nowrap       "Don't wrap lines
+endfunction
+
+function! SetMarkDownTheme()
+  colorscheme pencil
+  set background=light
+  let g:airline_theme = 'pencil'
+  set wrap
+endfunction
+
+autocmd BufEnter * call SetDefaultTheme()
+autocmd BufEnter *.md call SetMarkDownTheme()
 " }}}
-" Clipboad {{{
+" Clipboard {{{
+" vp doesn't replace paste buffer
+function! RestoreRegister()
+  let @" = s:restore_reg
+  return ''
+endfunction
+function! s:Repl()
+  let s:restore_reg = @"
+  return "p@=RestoreRegister()\<cr>"
+endfunction
+vmap <silent> <expr> p <sid>Repl()
 set clipboard=unnamed
 " }}}
 " Airline {{{
-let g:airline_theme='solarized'
+let g:airline_section_b = '%{strftime("%c")}'
 set laststatus=2
 let g:airline_powerline_fonts = 1
 "powerline symbols
@@ -284,14 +313,15 @@ let g:airline#extensions#tabline#enabled = 1
 " Markdown {{{
 " disable folding
 let g:vim_markdown_folding_disabled=1
+let g:table_mode_corner="|"
 " }}}
 " delimitMate {{{
-let g:delimitMate_autoclose = 1  
-let g:delimitMate_expand_cr = 2  
-let g:delimitMate_expand_space = 1  
-let delimitMate_expand_inside_quotes = 1  
-let g:delimitMate_smart_quotes = 1  
-let g:delimitMate_jump_expansion = 1  
+let g:delimitMate_autoclose = 1
+let g:delimitMate_expand_cr = 2
+let g:delimitMate_expand_space = 1
+let delimitMate_expand_inside_quotes = 1
+let g:delimitMate_smart_quotes = 1
+let g:delimitMate_jump_expansion = 1
 let g:delimitMate_matchpairs = "(:),[:],{:},<:>"
 " }}}
 " supertab.vim {{{
@@ -316,58 +346,8 @@ let g:delimitMate_matchpairs = "(:),[:],{:},<:>"
       \ endif
   endif
 " }}}
-" eclim.vim {{{
-  let g:EclimMakeDispatchEnabled = 0
-  let g:EclimLargeFileEnabled = 1
-
-  " fallback to my ag plugin for non-project searching
-  let g:EclimLocateFileNonProjectScope = 'ag'
-
-  let g:EclimOpenUrlInVimPatterns = [
-      \ '\.\(dtd\|xml\|xsd\)$',
-      \ '\.txt$',
-      \ '\.vim$',
-    \ ]
-
-  " for sphinx
-  let g:EclimAntCompilerAdditionalErrorFormat =
-    \ '\%W%.%#\ WARNING:\ %f:%l:\ %m,' .
-    \ '\%W%.%#\ WARNING:\ %f::\ %m,'
-
-  " mark current line
-  nnoremap <silent> <leader>s :Sign<cr>
-
-  " swap 2 words using ,ws
-  nnoremap <silent> <leader>ws :SwapWords<cr>
-  " swap typed method declaration arguments
-  nnoremap <silent> <buffer> <leader>aws :SwapTypedArguments<cr>
-
-  nnoremap <silent> <leader>> :LocateFile<cr>
-  nnoremap <silent> <leader>b :BuffersToggle<cr>
-
-  nnoremap <silent> <leader>/ :ProjectTreeToggle<cr>
-
-  let g:EclimProjectTabTreeAutoOpen = 0
-
-  let g:TreeSettingsFunction = "TreeSettings"
-  let g:TreeExpandSingleDirs = 1
-  let g:TreeIndent = 2
-
-  function! TreeSettings()
-    call eclim#tree#RegisterFileAction(
-      \ '.*\.\(bmp\|gif\|ico\|jpeg\|jpg\|png\|tif\)$',
-      \ 'Feh', '!feh <file> &> /dev/null &')
-    call eclim#tree#RegisterFileAction(
-      \ '.*\.\(bmp\|gif\|ico\|jpeg\|jpg\|png\|psd\|svg\|tif\|xbm\|xpm\)$',
-      \ 'Gimp', '!gimp <file> &> /dev/null &')
-    call eclim#tree#RegisterFileAction('.*\.psd$',
-      \ 'psdview', '!psdview <file> &> /dev/null &')
-    call eclim#tree#RegisterFileAction(
-      \ '.*\.pdf$', 'zathura', '!zathura <file> &> /dev/null &')
-  endfunction
-" }}}
 " Auto command {{{
-function s:MkNonExDir(file, buf)
+function! s:MkNonExDir(file, buf)
     if empty(getbufvar(a:buf, '&buftype')) && a:file!~#'\v^\w+\:\/'
         let dir=fnamemodify(a:file, ':h')
         if !isdirectory(dir)
@@ -379,5 +359,22 @@ augroup BWCCreateDir
     autocmd!
     autocmd BufWritePre * :call s:MkNonExDir(expand('<afile>'), +expand('<abuf>'))
 augroup END
+augroup markdown
+    au!
+    au BufNewFile,BufRead *.md,*.markdown setlocal filetype=ghmarkdown
+augroup END
+" }}}
+" CtrlP {{{
+nnoremap <C-m> :CtrlPMRU<CR>
+nnoremap <C-b> :CtrlPBuffer<CR>
+let g:ctrlp_map = '<c-p>'
+let g:ctrlp_cmd = 'CtrlPMixed'
+let g:ctrlp_working_path_mode = 'ra'
+" disable caching
+let g:ctrlp_use_caching=0
+let g:ctrlp_custom_ignore = {
+	\ 'dir':  '\v[\/]\.(git|hg|svn)$',
+	\ 'file': '\v\.(exe|so|dll)$',
+	\ }
 " }}}
 " vim:foldmethod=marker:foldlevel=0

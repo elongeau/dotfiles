@@ -115,6 +115,7 @@ SCRIPT_DIR="$HOME/dotfiles"
 if [[ -d $SCRIPT_DIR ]]; then
   sourceIfExist 'jrnl' "$SCRIPT_DIR/jrnl.sh"
   sourceIfExist 'icdiff' "$SCRIPT_DIR/icdiff.sh"
+  sourceIfExist 'docker' "$SCRIPT_DIR/docker.sh"
   # sourceIfExist 'ssh-agent' "$SCRIPT_DIR/ssh-agent.sh"
 fi
 
@@ -132,18 +133,6 @@ function print_all_colors() {
 }
 alias all_colors="print_all_colors"
 
-function docker_machine_wrapper() {
-  eval "$(docker-machine $@)"
-}
-alias dm="docker_machine_wrapper"
-
-alias dstop='docker stop $(docker ps -aq)'
-alias drm='docker rm $(docker ps -aq)'
-alias d="docker"
-alias dpa="docker ps -a"
-alias dclean="dstop && drm"
-
-alias dc="docker-compose"
 function git_add_and_commit() {
   if [[ -z "$@" ]]; then
     toAdd="."

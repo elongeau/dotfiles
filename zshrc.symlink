@@ -1,5 +1,5 @@
 # Path to your oh-my-zsh installation.
-export ZSH=/home/$(whoami)/.oh-my-zsh
+export ZSH=$HOME/.oh-my-zsh
 
 # Set name of the theme to load.
 # Look in ~/.oh-my-zsh/themes/
@@ -49,7 +49,7 @@ plugins=(git)
 
 # User configuration
 
-export PATH="/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/games:/usr/local/games"
+export PATH=$HOME/bin:/usr/local/bin:$PATH
 # export MANPATH="/usr/local/man:$MANPATH"
 
 source $ZSH/oh-my-zsh.sh
@@ -57,6 +57,16 @@ source $ZSH/oh-my-zsh.sh
 # You may need to manually set your language environment
 # export LANG=en_US.UTF-8
 
+man() {
+  env LESS_TERMCAP_mb=$'\E[01;31m' \
+  LESS_TERMCAP_md=$'\E[01;38;5;74m' \
+  LESS_TERMCAP_me=$'\E[0m' \
+  LESS_TERMCAP_se=$'\E[0m' \
+  LESS_TERMCAP_so=$'\E[38;5;246m' \
+  LESS_TERMCAP_ue=$'\E[0m' \
+  LESS_TERMCAP_us=$'\E[04;38;5;146m' \
+  man "$@"
+  }
 # Preferred editor for local and remote sessions
 # if [[ -n $SSH_CONNECTION ]]; then
 #   export EDITOR='vim'
@@ -78,20 +88,76 @@ source $ZSH/oh-my-zsh.sh
 # Example aliases
 # alias zshconfig="mate ~/.zshrc"
 # alias ohmyzsh="mate ~/.oh-my-zsh"
+ZSH_THEME="agnoster"
+alias ubu='ssh -p 3022 manu@localhost'
 
+alias gvim='/cygdrive/d/home/app/vim/vim74/gvim'
+
+# Alias pour git
+alias g='git'
+
+# dans le répertoire courant et ses sous répertoires et sans filtre
+function find_in_files() {
+  find . -type f -exec grep -l "$1" {} +
+}
+alias find_in_files='find_in_files'
+
+function sourceIfExist() {
+  cmd=$1
+  script=$2
+  if type $cmd &> /dev/null; then
+    echo "source $script"
+    source $script
+  fi
+}
+
+SCRIPT_DIR="$HOME/dotfiles"
+if [[ -d $SCRIPT_DIR ]]; then
+  sourceIfExist 'jrnl' "$SCRIPT_DIR/jrnl.sh"
+  # sourceIfExist 'ssh-agent' "$SCRIPT_DIR/ssh-agent.sh"
+fi
+
+export VIMINIT=""
+alias so="echo 'source ~/.zshrc';source ~/.zshrc"
+alias gap="git add -p"
+function print_all_colors() {
+  for i in {0..256} ; do 
+    cell_by_line=16
+    if [[ $(($i % $cell_by_line)) -eq 0 ]]; then
+      echo
+    fi
+    printf "\e[38;5;%sm %4s \e[0m" $i $i
+  done ; echo
+}
+alias all_colors="print_all_colors"
+
+function docker_machine_wrapper() {
+  eval "$(docker-machine $@)"
+}
+alias dm="docker_machine_wrapper"
+
+alias dstop='docker stop $(docker ps -aq)'
+alias drm='docker rm $(docker ps -aq)'
 alias d="docker"
-alias v="vi"
-alias dockercleancontainers="docker ps -a -notrunc| grep 'Exit' | awk '{print \$1}' | xargs -L 1 -r docker rm"
-alias dockercleanimages="docker images -a -notrunc | grep none | awk '{print \$3}' | xargs -L 1 -r docker rmi"
-alias dockerclean="dockercleancontainers && dockercleanimages"
-alias dcp="~/.dcp.sh"
-alias vi="echo 'use v alias'"
-alias v="vim"
-alias dockerrm='docker rm $(docker ps -a -q)'
-alias dockerstop='docker stop $(docker ps -a -q)'
-alias gd="git diff --color-words"
+alias dpa="docker ps -a"
+alias dclean="dstop && drm"
 
-if [ -e vm.sh ]
-then
-  source vm.sh
+alias dc="docker-compose"
+function git_add_and_commit() {
+  if [[ -z "$@" ]]; then
+    toAdd="."
+  else
+    toAdd="$@"
+  fi
+
+  git add $toAdd && git commit
+}
+alias gac="git_add_and_commit"
+alias gai="git add -i"
+
+if [[ -z $SSH_AGENT_STARTED ]]; then
+  # start ssh agent
+  eval $(ssh-agent -s) > /dev/null
+  ssh-add ~/.ssh/id_rsa
+  export SSH_AGENT_STARTED="true";
 fi

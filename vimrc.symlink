@@ -6,21 +6,25 @@ if has("win32")
   let MYVIMRC=$HOME . "/_vimrc"
   set rtp+=~/vimfiles/bundle/Vundle.vim
   call vundle#begin('~/vimfiles/bundle/')
-  let g:theme="base16-eighties"
+  " let g:seoul256_background = 233
+  let g:theme="gruvbox"
 else
   let MYVIMRC=$HOME . "/.vimrc"
   set rtp+=~/.vim/bundle/Vundle.vim
   call vundle#begin('~/.vim/bundle/')
-  let g:theme="solarized"
+  " let g:theme="base16-eighties"
+  let g:theme="gruvbox"
 endif
 
 " alternatively, pass a path where Vundle should install Plugins
 "call vundle#begin('~/some/path/here')
 
 " let Vundle manage Vundle, required
-Plugin 'gmarik/Vundle.vim'
+Plugin 'VundleVim/Vundle.vim'
 Plugin 'altercation/vim-colors-solarized'
 Plugin 'chriskempson/base16-vim'
+Plugin 'junegunn/seoul256.vim'
+Plugin 'morhetz/gruvbox'
 Plugin 'tpope/vim-fugitive'
 Plugin 'jtratner/vim-flavored-markdown.git'
 Plugin 'yggdroot/indentline'
@@ -36,6 +40,7 @@ Plugin 'dhruvasagar/vim-table-mode'
 Plugin 'terryma/vim-expand-region'
 Plugin 'kien/ctrlp.vim'
 Plugin 'rhysd/committia.vim'
+
 " All of your Plugins must be added before the following line
 call vundle#end()            " required
 filetype plugin indent on    " required
@@ -67,6 +72,9 @@ set autoread			"Reload files changed outside vim
 " Ignore these directories
 set wildignore+=*/build/**
 set wildignore+=*/target/**
+if has("win32")
+  set wildignore+=/cygdrive/**
+endif
 " }}}
 " Syntaxe {{{
 " Active la coloration syntaxique
@@ -81,15 +89,8 @@ vmap v <Plug>(expand_region_expand)
 vmap <C-v> <Plug>(expand_region_shrink)
 
 " Copier/coller system
-vmap <Leader>y "+y
-vmap <Leader>d "+d
-nmap <Leader>p "+p
-nmap <Leader>P "+P
-vmap <Leader>p "+p
-vmap <Leader>P "+P
+nmap <silent><Leader>p :set paste<CR>p :set nopaste<CR>
 
-" confort
-map q: :q
 " Rechercher et remplacer
 vnoremap <silent> s //e<C-r>=&selection=='exclusive'?'+1':''<CR><CR>
     \:<C-u>call histdel('search',-1)<Bar>let @/=histget('search',-1)<CR>gv
@@ -119,26 +120,19 @@ nnoremap <down> <nop>
 nnoremap <left> <nop>
 nnoremap <right> <nop>
 
-nnoremap <F3> :NumbersToggle<CR>
-nnoremap <F4> :RainbowParenthesesToggle<CR>
-
 " Scroll plus rapide
 nnoremap <leader>j :call MultiScroll(1)<RETURN>
 nnoremap <leader>k :call MultiScroll(0)<RETURN>
 
-" noremap w <C-w>
-" noremap W <C-w><C-w>
-
 inoremap <C-w> <esc>:w<RETURN>a
 nnoremap <leader>v :execute "e " .MYVIMRC<RETURN>
 
+" ====== move between splits =====
 nnoremap <C-j> <C-W><C-J>
 nnoremap <C-k> <C-W><C-K>
 nnoremap <C-l> <C-W><C-L>
 nnoremap <C-h> <C-W><C-H>
 
-"nnoremap <silent> <Leader><Leader> :nohlsearch<CR>
-inoremap <leader>x !%C:\Users\elongeau\.babun\cygwin\bin\xmllint.exe --format --recover -<CR>
 nnoremap <leader>nn :enew<RETURN>
 
 " ======== Files =========
@@ -146,12 +140,18 @@ nnoremap <leader>nn :enew<RETURN>
 nnoremap oh :e ~/
 " recharge le fichier courant dans vim
 noremap <silent><buffer> <F5> :exec 'source '.bufname('%')<CR>
+nnoremap <silent>so :so $MYVIMRC<CR>
 
 " ======= Buffer =========
-nnoremap <leader>l :ls<CR>
 nnoremap <leader>n :bn<RETURN>
 nnoremap <leader>q :bd<CR>
 nnoremap <leader>z :bd!<CR>
+
+" ====== save & exit ======
+nnoremap <leader><leader>q :q<CR>
+nnoremap <leader><leader>z :q!<CR>
+nnoremap <silent><leader>w :w<CR>
+nnoremap <silent>wq :wq<CR>
 
 " ======= Numbers =======
 " to an easily access of numbers with command on a french keyboad
@@ -167,31 +167,12 @@ nnoremap ç 9
 nnoremap à 0
 nnoremap = +
 
-" ====== Insert Mode ======
-inoremap <c-d> <esc>ddi
-inoremap <c-z> <esc>ui
 
-" ====== Move lines =======
-nnoremap <A-j> :m .+1<CR>==
-nnoremap <A-k> :m .-2<CR>==
-inoremap <A-j> <Esc>:m .+1<CR>==gi
-inoremap <A-k> <Esc>:m .-2<CR>==gi
-vnoremap <A-j> :m '>+1<CR>gv=gv
-vnoremap <A-k> :m '<-2<CR>gv=gv
-
-nnoremap <leader><leader>q :q<CR>
-nnoremap <leader><leader>z :q!<CR>
-
-nnoremap <Leader>w :w<CR>
-" Reload syntax highlighting
-noremap <F12> <Esc>:syntax sync fromstart<CR>
-inoremap <F12> <C-o>:syntax sync fromstart<CR>
 " }}}
 " Autocommand {{{
 " automatically reloadMYVIMRC when it's saved
 autocmd! bufwritepost MYVIMRC source %
 autocmd BufEnter * :syntax sync fromstart
-" autocmd CursorMoved * exe printf('match IncSearch /\V\<%s\>/', escape(expand('<cword>'), '/\'))
 " }}}
 " Backup {{{
 set nobackup
@@ -209,12 +190,9 @@ set expandtab
 filetype plugin on
 filetype indent on
 
-
 set nowrap       "Don't wrap lines
-" set wrap
 set linebreak
 set nolist  " list disables linebreak
-" set showbreak=
 set linebreak    "Wrap lines at convenient points
 " }}}
 " Folding {{{
@@ -251,7 +229,7 @@ let g:session_autoload="yes"
 " GUI {{{
 set guioptions-=m  "remove menu bar
 set guioptions-=T  "remove toolbar
-set guioptions+=r  "remove right-hand scroll bar
+set guioptions-=r  "remove right-hand scroll bar
 set guioptions-=L  "remove left-hand scroll bar
 
 " vertical line indentation
@@ -262,19 +240,18 @@ let g:indentLine_char = '¦'
 " Theme {{{
 set t_Co=256
 set background=dark
-" set background=light
 set antialias
 
 set encoding=utf-8
 set fileencoding=utf-8
-set guifont=Fantasque\ Sans\ Mono:h14
+set guifont=Fantasque\ Sans\ Mono:h16
 
 execute 'colorscheme '.g:theme
 
 function! SetDefaultTheme()
   set background=dark
   execute 'colorscheme '.g:theme
-  let g:airline_theme = 'solarized'
+  let g:airline_theme = 'gruvbox'
   set nowrap       "Don't wrap lines
 endfunction
 
@@ -299,6 +276,8 @@ function! s:Repl()
   return "p@=RestoreRegister()\<cr>"
 endfunction
 vmap <silent> <expr> p <sid>Repl()
+
+" Use system clipboard
 set clipboard=unnamed
 " }}}
 " Airline {{{
@@ -308,43 +287,12 @@ let g:airline_powerline_fonts = 1
 "powerline symbols
 let g:Powerline_symbols="fancy"
 let g:airline_section_z = ' %l / %L : %c '
-let g:airline#extensions#tabline#enabled = 1
+" let g:airline#extensions#tabline#enabled = 1
 " }}}
 " Markdown {{{
 " disable folding
 let g:vim_markdown_folding_disabled=1
 let g:table_mode_corner="|"
-" }}}
-" delimitMate {{{
-let g:delimitMate_autoclose = 1
-let g:delimitMate_expand_cr = 2
-let g:delimitMate_expand_space = 1
-let delimitMate_expand_inside_quotes = 1
-let g:delimitMate_smart_quotes = 1
-let g:delimitMate_jump_expansion = 1
-let g:delimitMate_matchpairs = "(:),[:],{:},<:>"
-" }}}
-" supertab.vim {{{
-  if &rtp =~ '\<supertab\>'
-    let g:SuperTabDefaultCompletionType = 'context'
-    let g:SuperTabContextTextFileTypeExclusions =
-      \ ['htmldjango', 'htmljinja', 'javascript', 'sql']
-
-    " auto select the first result when using 'longest'
-    "let g:SuperTabLongestHighlight = 1
-
-    let g:SuperTabLongestEnhanced = 1
-    let g:SuperTabClosePreviewOnPopupClose = 1
-
-    " map <c-space> to <c-p> completion (useful when supertab 'context'
-    " defaults to something else).
-    imap <nul> <c-r>=SuperTabAlternateCompletion("\<lt>c-p>")<cr>
-
-    autocmd FileType python
-      \ if &completefunc != '' |
-      \   call SuperTabChain(&completefunc, "<c-p>") |
-      \ endif
-  endif
 " }}}
 " Auto command {{{
 function! s:MkNonExDir(file, buf)
@@ -373,7 +321,7 @@ let g:ctrlp_working_path_mode = 'ra'
 " disable caching
 let g:ctrlp_use_caching=0
 let g:ctrlp_custom_ignore = {
-	\ 'dir':  '\v[\/]\.(git|hg|svn)$',
+	\ 'dir':  '\v[\/]\.(git|hg|svn)$|/cygdrive$',
 	\ 'file': '\v\.(exe|so|dll)$',
 	\ }
 " }}}

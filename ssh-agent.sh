@@ -1,15 +1,22 @@
-# If no SSH agent is already running, start one now. Re-use sockets so we never
-# have to start more than one session.
+SSH_ENV="$HOME/.ssh/environment"
 
-export SSH_AUTH_SOCK=~/.ssh-socket
+function start_agent {
+    echo "Initialising new SSH agent..."
+    /usr/bin/ssh-agent | sed 's/^echo/#echo/' > "${SSH_ENV}"
+    echo succeeded
+    chmod 600 "${SSH_ENV}"
+    . "${SSH_ENV}" > /dev/null
+    /usr/bin/ssh-add;
+}
 
-ssh-add -l >/dev/null 2>&1
-if [ $? = 2 ]; then
-   # No ssh-agent running
-   rm -rf $SSH_AUTH_SOCK
-   # >| allows output redirection to over-write files if no clobber is set
-   ssh-agent -a $SSH_AUTH_SOCK >| /tmp/.ssh-script
-   source /tmp/.ssh-script
-   echo $SSH_AGENT_PID >| ~/.ssh-agent-pid
-   rm /tmp/.ssh-script
+# Source SSH settings, if applicable
+
+if [ -f "${SSH_ENV}" ]; then
+    . "${SSH_ENV}" > /dev/null
+    #ps ${SSH_AGENT_PID} doesn't work under cywgin
+    ps -ef | grep ${SSH_AGENT_PID} | grep ssh-agent$ > /dev/null || {
+        start_agent;
+    }
+else
+    start_agent;
 fi

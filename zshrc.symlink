@@ -117,7 +117,6 @@ if [[ -d $SCRIPT_DIR ]]; then
   sourceIfExist 'jrnl' "$SCRIPT_DIR/jrnl.sh"
   sourceIfExist 'icdiff' "$SCRIPT_DIR/icdiff.sh"
   sourceIfExist 'docker' "$SCRIPT_DIR/docker.sh"
-  sourceIfExist 'ssh-agent' "$SCRIPT_DIR/ssh-agent.sh"
 fi
 
 export VIMINIT=""
@@ -145,3 +144,4 @@ function git_add_and_commit() {
 }
 alias gac="git_add_and_commit"
 alias gai="git add -i"
+export PATH=~/bin:$PATH

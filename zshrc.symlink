@@ -106,13 +106,14 @@ function sourceIfExist() {
   cmd=$1
   script=$2
   if type $cmd &> /dev/null; then
-    echo "source $script"
     source $script
+    echo "source ${BLUE}$script${NO_COLOR}"
   fi
 }
 
 SCRIPT_DIR="$HOME/dotfiles"
 if [[ -d $SCRIPT_DIR ]]; then
+  . "$SCRIPT_DIR/colors.sh"
   sourceIfExist 'jrnl' "$SCRIPT_DIR/jrnl.sh"
   sourceIfExist 'icdiff' "$SCRIPT_DIR/icdiff.sh"
   sourceIfExist 'docker' "$SCRIPT_DIR/docker.sh"
@@ -120,7 +121,7 @@ if [[ -d $SCRIPT_DIR ]]; then
 fi
 
 export VIMINIT=""
-alias so="echo 'source ~/.zshrc';source ~/.zshrc"
+alias so="echo 'source ${BLUE}~/.zshrc${NO_COLOR}';source ~/.zshrc"
 alias gap="git add -p"
 function print_all_colors() {
   for i in {0..256} ; do 

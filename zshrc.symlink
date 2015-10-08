@@ -119,6 +119,11 @@ if [[ -d $SCRIPT_DIR ]]; then
   sourceIfExist 'docker' "$SCRIPT_DIR/docker.sh"
 fi
 
+if [[ -f ~/.custom ]]; then
+  echo "source ${RED}custom file${NO_COLOR}"
+  . ~/.custom
+fi
+
 export VIMINIT=""
 alias so="echo 'source ${BLUE}~/.zshrc${NO_COLOR}';source ~/.zshrc"
 alias gap="git add -p"

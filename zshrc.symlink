@@ -24,20 +24,35 @@ function find_in_files() {
 }
 alias find_in_files='find_in_files'
 
+function source_log() {
+  sourced="${BLUE}$1"
+  sourcing_status="$2"
+  if [[ $sourcing_status == "OK" ]] && colored_status="${GREEN}OK${NO_COLOR}" || colored_status="${RED}KO${NO_COLOR}"
+  echo "$sourced $colored_status" | awk '{printf "source %-50s %s\n", $1, $2}'
+}
+
 function sourceIfExist() {
   cmd=$1
   script=$2
   if type $cmd &> /dev/null; then
     source $script
-    echo "source ${BLUE}$script${NO_COLOR}"
+    source_log $script OK
+  fi
+}
+
+function sourceScript() {
+  script="$SCRIPT_DIR/$1"
+  if [[ -e $script ]]; then
+    . $script
+    source_log $script OK
   fi
 }
 
 SCRIPT_DIR="$HOME/dotfiles"
 if [[ -d $SCRIPT_DIR ]]; then
-  . "$SCRIPT_DIR/colors.sh"
-  . "$SCRIPT_DIR/alias.git.sh"
-  . "$SCRIPT_DIR/theme.sh"
+  sourceScript colors.sh
+  sourceScript alias.git.sh
+  sourceScript theme.sh
   sourceIfExist 'jrnl' "$SCRIPT_DIR/jrnl.sh"
   sourceIfExist 'icdiff' "$SCRIPT_DIR/icdiff.sh"
   sourceIfExist 'docker' "$SCRIPT_DIR/docker.sh"
@@ -48,8 +63,13 @@ if [[ -f ~/.custom ]]; then
   . ~/.custom
 fi
 
+function source_zshrc() {
+  source_log "~/.zshrc" OK
+  source ~/.zshrc
+}
+
 export VIMINIT=""
-alias so="echo 'source ${BLUE}~/.zshrc${NO_COLOR}';source ~/.zshrc"
+alias so="source_zshrc"
 alias gap="git add -p"
 function print_all_colors() {
   for i in {0..256} ; do 

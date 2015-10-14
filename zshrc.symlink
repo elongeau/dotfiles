@@ -93,4 +93,6 @@ function git_add_and_commit() {
 }
 alias gac="git_add_and_commit"
 alias gai="git add -i"
+alias galias="alias | grep"
+export GREP_COLORS="mt=31;40"
 export PATH=~/bin:$PATH

@@ -1,6 +1,8 @@
 DOTFILES=$(pwd)
 VUNDLE_DIR="~/.vim/bundle/Vundle.vim"
 THEME_DIR="~/.vim/bundle/gruvbox"
+isFromdosInstalled=$(type fromdos > /dev/null 2>&1 && echo true || echo false)
+isDos2UnixInstalled=$(type dos2unix > /dev/null 2>&1 && echo true || echo false)
 
 for file in $DOTFILES/*.symlink
 do
@@ -11,8 +13,10 @@ do
 		rm -rf ~/$filename
 	fi
 
-  if type fromdos &> /dev/null; then
+  if $isFromdosInstalled; then
     fromdos $file
+  elif $isDos2UnixInstalled; then
+    dos2unix $file
   fi
 
 	ln -s $file ~/$filename
@@ -28,4 +32,10 @@ if [[ -z $VUNDLE_DIR ]]; then
   git clone https://github.com/morhetz/gruvbox.git $THEME_DIR
 fi
 
-echo "You need to run : \nsudo fromdos ~/.vim/bundle/**/*; vim +PluginInstall +qall; sudo fromdos ~/.vim/bundle/**/*"
+if $isDos2UnixInstalled; then
+  dos2unix ~/vimfiles/bundle/**/*
+  vim +PluginInstall +qall
+  dos2unix ~/vimfiles/bundle/**/*
+else
+  echo "You need to run : \nsudo fromdos ~/.vim/bundle/**/*; vim +PluginInstall +qall; sudo fromdos ~/.vim/bundle/**/*"
+fi

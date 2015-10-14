@@ -37,6 +37,7 @@ SCRIPT_DIR="$HOME/dotfiles"
 if [[ -d $SCRIPT_DIR ]]; then
   . "$SCRIPT_DIR/colors.sh"
   . "$SCRIPT_DIR/alias.git.sh"
+  . "$SCRIPT_DIR/theme.sh"
   sourceIfExist 'jrnl' "$SCRIPT_DIR/jrnl.sh"
   sourceIfExist 'icdiff' "$SCRIPT_DIR/icdiff.sh"
   sourceIfExist 'docker' "$SCRIPT_DIR/docker.sh"

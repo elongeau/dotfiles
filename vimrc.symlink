@@ -40,6 +40,7 @@ Plugin 'dhruvasagar/vim-table-mode'
 Plugin 'terryma/vim-expand-region'
 Plugin 'kien/ctrlp.vim'
 Plugin 'rhysd/committia.vim'
+Plugin 'mhinz/vim-startify'
 
 " All of your Plugins must be added before the following line
 call vundle#end()            " required

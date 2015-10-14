@@ -40,7 +40,11 @@ if [[ -d $SCRIPT_DIR ]]; then
   sourceIfExist 'jrnl' "$SCRIPT_DIR/jrnl.sh"
   sourceIfExist 'icdiff' "$SCRIPT_DIR/icdiff.sh"
   sourceIfExist 'docker' "$SCRIPT_DIR/docker.sh"
-  sourceIfExist 'docker' "$SCRIPT_DIR/mongo.sh"
+fi
+
+if [[ -f ~/.custom ]]; then
+  echo "source ${RED}custom file${NO_COLOR}"
+  . ~/.custom
 fi
 
 export VIMINIT=""

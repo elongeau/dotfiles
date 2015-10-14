@@ -1,4 +1,4 @@
-DEFAULT_NAME="some-mongo"
+DEFAULT_NAME="bank-account-db"
 DEFAULT_DATA_DIR="~/mongo-data"
 
 function default() {
@@ -10,9 +10,7 @@ function default() {
 }
 
 function mongo-start() {
-  name="$(default "$1" $DEFAULT_NAME)"
-  data_dir="$(default "$2" $DEFAULT_DATA_DIR)"
-  docker run --name $name -d -v $data_dir:/data/db -p 27017:27017 mongo
+  docker-compose up -d
 }
 
 function mongo-shell() {
@@ -20,3 +18,5 @@ function mongo-shell() {
   docker run -it --link $name:mongo --rm mongo sh -c 'exec mongo "$MONGO_PORT_27017_TCP_ADDR:$MONGO_PORT_27017_TCP_PORT/test"'
 }
 alias mongo-start="mongo-start"
+alias mongo-shell="mongo-shell"
+alias mongo-stop="docker-compose stop"

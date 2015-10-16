@@ -41,6 +41,8 @@ Plugin 'terryma/vim-expand-region'
 Plugin 'kien/ctrlp.vim'
 Plugin 'rhysd/committia.vim'
 Plugin 'mhinz/vim-startify'
+Plugin 'vim-scripts/groovy.vim'
+Plugin 'tfnico/vim-gradle'
 
 " All of your Plugins must be added before the following line
 call vundle#end()            " required

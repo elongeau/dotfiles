@@ -97,3 +97,6 @@ alias gai="git add -i"
 alias galias="alias | grep"
 export GREP_COLORS="mt=31;40"
 export PATH=~/bin:$PATH
+zstyle ':completion:*' accept-exact '*(N)'
+zstyle ':completion:*' use-cache on
+zstyle ':completion:*' cache-path ~/.zsh/cache

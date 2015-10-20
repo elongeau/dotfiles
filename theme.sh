@@ -73,7 +73,7 @@ prompt_context() {
   local user=`whoami`
 
   if [[ "$user" != "$DEFAULT_USER" || -n "$SSH_CONNECTION" ]]; then
-    prompt_segment $PRIMARY_FG default " %(!.%{%F{yellow}%}.)$user@%m "
+    prompt_segment $PRIMARY_FG default " %(!.%{%F{yellow}%}.)$user "
   fi
 }
 
@@ -125,6 +125,7 @@ prompt_status() {
 prompt_agnoster_main() {
   RETVAL=$?
   CURRENT_BG='NONE'
+  prompt_context
   prompt_dir
   prompt_git
   prompt_end

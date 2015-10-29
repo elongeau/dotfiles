@@ -58,6 +58,7 @@ set relativenumber
 set ruler " Affiche la position actuelle du curseur
 set scrolloff=3 " Affiche un minimum de 3 lignes autour du curseur (pour le scroll)
 set wildmenu            " visual autocomplete for command menu
+set noshowmode " cache le mode
 " }}}
 " Recherche {{{
 set ignorecase " Ignore la casse lors d?une recherche

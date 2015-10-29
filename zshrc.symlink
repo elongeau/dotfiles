@@ -86,12 +86,14 @@ alias all_colors="print_all_colors"
 
 function git_add_and_commit() {
   if [[ -z "$@" ]]; then
-    toAdd="."
+    git add .
   else
-    toAdd="$@"
+    for file in $(ls -1 $@); do
+      git add $file
+    done
   fi
 
-  git add $toAdd && git commit
+  git commit
 }
 alias gac="git_add_and_commit"
 alias gai="git add -i"

@@ -330,4 +330,7 @@ let g:ctrlp_custom_ignore = {
 	\ 'file': '\v\.(exe|so|dll)$',
 	\ }
 " }}}
+" Git {{{
+au FileType gitcommit set tw=100
+" }}}
 " vim:foldmethod=marker:foldlevel=0

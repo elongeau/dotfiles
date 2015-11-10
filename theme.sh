@@ -47,6 +47,5 @@ function p_envs {
 }
 
 PROMPT='
-%F{blue}λ%f $(p_colored_path)$(p_envs)$(p_vcs)
-$(p_arrow) '
+%F{blue}λ%f $(p_colored_path)$(p_envs) $(p_arrow) '
 

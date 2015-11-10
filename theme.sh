@@ -21,8 +21,11 @@ function p_colored_path {
 # git info
 
 function p_vcs {
-  ref=$(git symbolic-ref HEAD | cut -d'/' -f3)
-  echo " %F{cyan}→ %F{green}$ref"
+  if ref=$(git rev-parse --abbrev-ref HEAD 2> /dev/null); then
+    echo " %F{cyan}→ %F{green}$ref"
+  else
+    echo ""
+  fi
 }
 
 # environments:

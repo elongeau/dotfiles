@@ -1,4 +1,3 @@
-source ~/dotfiles/vcsinfo.zsh
 # prompt
 setopt prompt_subst
 
@@ -22,8 +21,8 @@ function p_colored_path {
 # git info
 
 function p_vcs {
-  vcs_info
-  echo $vcs_info_msg_0_
+  ref=$(git symbolic-ref HEAD | cut -d'/' -f3)
+  echo " %F{cyan}→ %F{green}$ref"
 }
 
 # environments:
@@ -47,5 +46,4 @@ function p_envs {
 }
 
 PROMPT='
-%F{blue}λ%f $(p_colored_path)$(p_envs) $(p_arrow) '
-
+%F{blue}λ%f $(p_colored_path)$(p_envs)$(p_vcs) $(p_arrow) '

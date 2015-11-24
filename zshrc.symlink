@@ -104,3 +104,4 @@ export PATH=~/bin:$PATH
 zstyle ':completion:*' accept-exact '*(N)'
 zstyle ':completion:*' use-cache on
 zstyle ':completion:*' cache-path ~/.zsh/cache
+export TERM=xterm-256color

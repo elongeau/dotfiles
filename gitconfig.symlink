@@ -57,3 +57,8 @@
 	unstage = reset HEAD --
 	dc = diff --cached
 	lg = log --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %Cblue<%an>%Creset' --abbrev-commit --date=relative --all
+[ghi]
+	pager = less -X -F -R
+	editor = vim
+[github]
+	user = elongeau

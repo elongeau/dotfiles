@@ -44,6 +44,7 @@ Plugin 'dagwieers/asciidoc-vim'
 Plugin 'mhinz/vim-startify'
 Plugin 'vim-scripts/groovy.vim'
 Plugin 'tfnico/vim-gradle'
+Plugin 'fatih/vim-go'
 
 " All of your Plugins must be added before the following line
 call vundle#end()            " required

@@ -48,5 +48,9 @@ function p_envs {
   [[ -n $envs ]] && echo " %F{green}[%f$envs%F{green}]%f"
 }
 
+function p_hour {
+  echo "$(date '+%H:%M:%S')"
+}
+
 PROMPT='
-%F{blue}λ%f $(p_colored_path)$(p_envs)$(p_vcs) $(p_arrow) '
+%F{yellow}[$(p_hour)]%f %F{blue}λ%f $(p_colored_path)$(p_envs)$(p_vcs) $(p_arrow) '

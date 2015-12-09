@@ -1,3 +1,4 @@
+eval "$(docker-machine env default --shell=zsh)"
 alias dm="docker-machine"
 
 alias dstop='docker stop $(docker ps -aq)'

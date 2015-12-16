@@ -46,6 +46,7 @@ Plugin 'mhinz/vim-startify'
 Plugin 'vim-scripts/groovy.vim'
 Plugin 'tfnico/vim-gradle'
 Plugin 'fatih/vim-go'
+Plugin 'robbles/logstash.vim'
 
 " All of your Plugins must be added before the following line
 call vundle#end()            " required

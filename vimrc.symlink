@@ -160,6 +160,7 @@ nnoremap <leader><leader>q :q<CR>
 nnoremap <leader><leader>z :q!<CR>
 nnoremap <silent><leader>w :w<CR>
 nnoremap <silent>wq :wq<CR>
+nnoremap <silent>wz :w<CR><C-Z>
 
 " ======= Numbers =======
 " to an easily access of numbers with command on a french keyboad

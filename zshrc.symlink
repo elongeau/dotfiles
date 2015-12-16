@@ -130,7 +130,6 @@ if [[ -d $SCRIPT_DIR ]]; then
   sourceIfExist 'icdiff' "$SCRIPT_DIR/icdiff.sh"
   sourceIfExist 'docker' "$SCRIPT_DIR/docker.sh"
   sourceIfExist 'gradle' "$SCRIPT_DIR/gradle.sh"
-  sourceIfExist 'gradle' "$SCRIPT_DIR/gradle.completion.sh"
 fi
 
 if [[ -f ~/.custom ]]; then

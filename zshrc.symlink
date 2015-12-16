@@ -178,4 +178,4 @@ zstyle ':completion:*' use-cache on
 zstyle ':completion:*' cache-path ~/.zsh/cache
 export TERM=xterm-256color
 export PATH=~/bin:$PATH
-source /cygdrive/d/home2/.babun-docker/setup.sh
+source /home/elongeau/.babun-docker/setup.sh

@@ -153,3 +153,4 @@ alias galias="alias | grep"
 alias galais="alias | grep"
 export GREP_COLORS="mt=31;40"
 alias vim="/usr/local/bin/vim"
+export PATH=$PATH:$HOME/project/.activator

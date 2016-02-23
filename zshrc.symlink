@@ -156,3 +156,4 @@ alias vim="/usr/local/bin/vim"
 export PATH=$PATH:$HOME/project/.activator
 alias glom="glol master.."
 alias weather="curl http://wttr.in/vendin-le-vieil"
+alias gundo='git reset --soft HEAD~'

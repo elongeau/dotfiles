@@ -1,5 +1,4 @@
 [core]
-	autocrlf = true
 	whitespace = trailing-space,space-before-tab
 	editor = vim
 	trustctime = false

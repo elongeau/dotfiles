@@ -4,13 +4,14 @@
 	trustctime = false
 	filemode = false
 	editor = vim
+	pager = diff-so-fancy | less --tabs=4 -RFX
 [user]
 	email = emmanuel.longeau@gmail.com
 	name = elongeau
 [diff]
   wordRegex = .
-  renames = copies
-  mnemonicprefix = true
+	renames = true
+	mnemonicPrefix = true
 	tool = vimdiff
 [status]
 	showUntrackedFiles = all
@@ -55,9 +56,23 @@
 	br = branch
 	unstage = reset HEAD --
 	dc = diff --cached
-	lg = log --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %Cblue<%an>%Creset' --abbrev-commit --date=relative --all
+	lg = log --graph --pretty='%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset' --abbrev-commit
+	lgm = log --graph --pretty='%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset' --abbrev-commit master..
+	d = diff
+	a = add
+	ap = add -p
+	aa = add .
+	cm = checkout master
+	cb = checkout -b
+	dw = diff --color-words
 [ghi]
 	pager = less -X -F -R
 	editor = vim
 [github]
 	user = elongeau
+[branch "master"]
+      mergeoptions = --no-ff
+[fetch]
+	prune = true
+[pull]
+	rebase = true

@@ -1,0 +1,79 @@
+set background=dark
+colorscheme solarized
+
+let mapleader = "\<Space>"
+nmap <silent><Leader>p :set paste<CR>p :set nopaste<CR>
+
+" ========= Motion ==========
+inoremap jk <Esc>
+imap <Esc> <nop>
+nnoremap j gj
+nnoremap k gk
+nnoremap <up> <nop>
+nnoremap <down> <nop>
+nnoremap <left> <nop>
+nnoremap <right> <nop>
+
+
+nnoremap <C-j> <C-W><C-J>
+nnoremap <C-k> <C-W><C-K>
+nnoremap <C-l> <C-W><C-L>
+nnoremap <C-h> <C-W><C-H>
+
+" ======= Buffer =========
+nnoremap <leader>n :bn<RETURN>
+nnoremap <leader>q :bd<CR>
+nnoremap <leader>z :bd!<CR>
+
+
+" ====== save & exit ======
+nnoremap <leader><leader>q :q<CR>
+nnoremap <leader><leader>z :q!<CR>
+nnoremap <silent><leader>w :w<CR>
+nnoremap <silent>wq :wq<CR>
+
+" ======= Numbers =======
+" to an easily access of numbers with command on a french keyboad
+nnoremap & 1
+nnoremap é 2
+nnoremap " 3
+nnoremap ' 4
+nnoremap ( 5
+nnoremap - 6
+nnoremap è 7
+nnoremap _ 8
+nnoremap ç 9
+nnoremap à 0
+nnoremap = +
+
+" vp doesn't replace paste buffer
+function! RestoreRegister()
+  let @" = s:restore_reg
+  return ''
+endfunction
+function! s:Repl()
+  let s:restore_reg = @"
+  return "p@=RestoreRegister()\<cr>"
+endfunction
+vmap <silent> <expr> p <sid>Repl()
+
+" Use system clipboard
+set clipboard=unnamed
+
+
+" CtrlP {{{
+nnoremap <C-m> :CtrlPMRU<CR>
+nnoremap <C-b> :CtrlPBuffer<CR>
+let g:ctrlp_map = '<c-p>'
+let g:ctrlp_cmd = 'CtrlPMixed'
+let g:ctrlp_working_path_mode = 'ra'
+" disable caching
+let g:ctrlp_use_caching=0
+let g:ctrlp_custom_ignore = {
+	\ 'dir':  '\v[\/]\.(git|hg|svn)$|/cygdrive$',
+	\ 'file': '\v\.(exe|so|dll)$',
+	\ }
+" }}}
+" Git {{{
+au FileType gitcommit set tw=100
+" }}}
